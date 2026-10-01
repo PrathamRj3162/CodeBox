@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,47 +13,34 @@ import {
 } from "@/components/ui/navigation-menu";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import axios from "axios";
 import { Course } from "../(routes)/courses/_components/CourseList";
+import { UserDetailContext } from "@/context/UserDetailContext";
 
 function Header() {
-  const { user, isLoaded } = useUser();
-  const path = usePathname();
+  const { user } = useUser();
+  const { userDetail, isGuest, logoutGuest } = useContext(UserDetailContext);
   const { exerciseslug } = useParams();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const activeUser = user || (isGuest ? userDetail : null);
+
   useEffect(() => {
-    // Only fetch courses if user is authenticated
-    if (isLoaded && user) {
-      GetCourses();
-    } else if (isLoaded && !user) {
-      // User is not logged in, don't fetch
-      setLoading(false);
-    }
-  }, [isLoaded, user]);
+    GetCourses();
+  }, []);
 
   const GetCourses = async () => {
     try {
       const result = await axios.get("/api/course");
-      console.log("API Response:", result.data);
-      
-      // Check if response has error (unauthenticated)
-      if (result.data?.error) {
-        console.error("API Error:", result.data.error);
-        setCourses([]);
-        return;
-      }
-      
       if (Array.isArray(result.data)) {
         setCourses(result.data);
       } else {
-        console.error("API did not return an array:", result.data);
         setCourses([]);
       }
     } catch (error) {
-      console.error("Error fetching courses:", error);
+      console.error("Error fetching courses in header:", error);
       setCourses([]);
     } finally {
       setLoading(false);
@@ -68,6 +55,7 @@ function Header() {
           <h2 className="font-bold text-4xl font-game">CodeBox</h2>
         </div>
       </Link>
+
       {/* Navbar */}
       {!exerciseslug && !loading && courses.length > 0 ? (
         <NavigationMenu>
@@ -77,12 +65,12 @@ function Header() {
                 Courses
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid md:grid-cols-2 gap-2 sm:w-[400px] md:w-[500px] lg:w-[600px]">
+                <ul className="grid md:grid-cols-2 gap-2 sm:w-[400px] md:w-[500px] lg:w-[600px] p-2">
                   {courses.map((course, index) => (
                     <Link href={"/courses/" + course?.CourseId} key={index}>
-                      <div className="p-2 hover:bg-accent rounded-2xl cursor-pointer">
+                      <div className="p-2 hover:bg-zinc-800 rounded-2xl cursor-pointer">
                         <h2 className="text-2xl font-game">{course?.title}</h2>
-                        <p className="text-lg text-gray-500 font-game">
+                        <p className="text-lg text-gray-400 font-game line-clamp-2">
                           {course?.desc}
                         </p>
                       </div>
@@ -93,10 +81,10 @@ function Header() {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink
-                href="/projects"
+                href="/courses"
                 className="font-game text-2xl"
               >
-                Projects
+                All Courses
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -107,14 +95,6 @@ function Header() {
                 Pricing
               </NavigationMenuLink>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                href="/contact"
-                className="font-game text-2xl"
-              >
-                Contact Us
-              </NavigationMenuLink>
-            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       ) : exerciseslug ? (
@@ -122,13 +102,21 @@ function Header() {
           {exerciseslug?.toString()?.replaceAll("-", " ").toLocaleUpperCase()}
         </h2>
       ) : null}
-      {/*sign up / login buttons */}
-      {!user ? (
-        <Link href="/sign-in">
-          <Button className="font-game text-2xl" variant="pixel">
-            Sign Up
-          </Button>
-        </Link>
+
+      {/* Auth state: Guest or Clerk */}
+      {!activeUser ? (
+        <div className="flex gap-3 items-center">
+          <Link href="/courses">
+            <Button className="font-game text-xl" variant="outline">
+              Explore Courses
+            </Button>
+          </Link>
+          <Link href="/sign-in">
+            <Button className="font-game text-2xl" variant="pixel">
+              Sign In
+            </Button>
+          </Link>
+        </div>
       ) : (
         <div className="flex gap-4 items-center">
           <Link href="/dashboard">
@@ -136,7 +124,24 @@ function Header() {
               Dashboard
             </Button>
           </Link>
-          <UserButton />
+
+          {user ? (
+            <UserButton />
+          ) : (
+            <div className="flex items-center gap-3">
+              <span className="font-game text-lg bg-zinc-800 border-2 border-black px-2 py-1 rounded-md text-yellow-400 shadow-[2px_2px_0_0_#000]">
+                ⭐ {userDetail?.points || 250} XP
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={logoutGuest}
+                className="font-game text-base text-zinc-400 hover:text-white"
+              >
+                Logout
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>
