@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,19 +13,16 @@ import {
 } from "@/components/ui/navigation-menu";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import axios from "axios";
 import { Course } from "../(routes)/courses/_components/CourseList";
-import { UserDetailContext } from "@/context/UserDetailContext";
 
 function Header() {
-  const { user } = useUser();
-  const { userDetail, isGuest, logoutGuest } = useContext(UserDetailContext);
+  const { user, isLoaded } = useUser();
+  const path = usePathname();
   const { exerciseslug } = useParams();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const activeUser = user || (isGuest ? userDetail : null);
 
   useEffect(() => {
     GetCourses();
@@ -40,7 +37,7 @@ function Header() {
         setCourses([]);
       }
     } catch (error) {
-      console.error("Error fetching courses in header:", error);
+      console.error("Error fetching courses:", error);
       setCourses([]);
     } finally {
       setLoading(false);
@@ -55,7 +52,6 @@ function Header() {
           <h2 className="font-bold text-4xl font-game">CodeBox</h2>
         </div>
       </Link>
-
       {/* Navbar */}
       {!exerciseslug && !loading && courses.length > 0 ? (
         <NavigationMenu>
@@ -65,12 +61,12 @@ function Header() {
                 Courses
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid md:grid-cols-2 gap-2 sm:w-[400px] md:w-[500px] lg:w-[600px] p-2">
+                <ul className="grid md:grid-cols-2 gap-2 sm:w-[400px] md:w-[500px] lg:w-[600px]">
                   {courses.map((course, index) => (
                     <Link href={"/courses/" + course?.CourseId} key={index}>
-                      <div className="p-2 hover:bg-zinc-800 rounded-2xl cursor-pointer">
+                      <div className="p-2 hover:bg-accent rounded-2xl cursor-pointer">
                         <h2 className="text-2xl font-game">{course?.title}</h2>
-                        <p className="text-lg text-gray-400 font-game line-clamp-2">
+                        <p className="text-lg text-gray-500 font-game">
                           {course?.desc}
                         </p>
                       </div>
@@ -81,10 +77,10 @@ function Header() {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink
-                href="/courses"
+                href="/projects"
                 className="font-game text-2xl"
               >
-                All Courses
+                Projects
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -95,6 +91,14 @@ function Header() {
                 Pricing
               </NavigationMenuLink>
             </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/contact"
+                className="font-game text-2xl"
+              >
+                Contact Us
+              </NavigationMenuLink>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       ) : exerciseslug ? (
@@ -102,21 +106,13 @@ function Header() {
           {exerciseslug?.toString()?.replaceAll("-", " ").toLocaleUpperCase()}
         </h2>
       ) : null}
-
-      {/* Auth state: Guest or Clerk */}
-      {!activeUser ? (
-        <div className="flex gap-3 items-center">
-          <Link href="/courses">
-            <Button className="font-game text-xl" variant="outline">
-              Explore Courses
-            </Button>
-          </Link>
-          <Link href="/sign-in">
-            <Button className="font-game text-2xl" variant="pixel">
-              Sign In
-            </Button>
-          </Link>
-        </div>
+      {/*sign up / login buttons */}
+      {!user ? (
+        <Link href="/sign-in">
+          <Button className="font-game text-2xl" variant="pixel">
+            Sign Up
+          </Button>
+        </Link>
       ) : (
         <div className="flex gap-4 items-center">
           <Link href="/dashboard">
@@ -124,24 +120,7 @@ function Header() {
               Dashboard
             </Button>
           </Link>
-
-          {user ? (
-            <UserButton />
-          ) : (
-            <div className="flex items-center gap-3">
-              <span className="font-game text-lg bg-zinc-800 border-2 border-black px-2 py-1 rounded-md text-yellow-400 shadow-[2px_2px_0_0_#000]">
-                ⭐ {userDetail?.points || 250} XP
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={logoutGuest}
-                className="font-game text-base text-zinc-400 hover:text-white"
-              >
-                Logout
-              </Button>
-            </div>
-          )}
+          <UserButton />
         </div>
       )}
     </div>
