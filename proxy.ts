@@ -1,7 +1,13 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
-const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', '/']);
+const isPublicRoute = createRouteMatcher([
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+  '/',
+  '/api/course(.*)',
+  '/pricing(.*)',
+]);
 
 export default function middleware(req: NextRequest, ev: NextFetchEvent) {
   // If Clerk publishable key is not configured, pass through gracefully
