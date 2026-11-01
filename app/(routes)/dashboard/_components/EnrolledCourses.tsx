@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CourseProgressCard from "./CourseProgressCard";
 
 export type EnrolledCourseInfo = {
@@ -31,7 +31,7 @@ function EnrolledCourses() {
     setLoading(true);
     try {
       const result = await axios.get("/api/course?courseid=enrolled");
-      setEnrolledCourses(result.data ?? []);
+      setEnrolledCourses(Array.isArray(result?.data) ? result.data : []);
     } catch (error) {
       console.error("Failed to load enrolled courses:", error);
       setEnrolledCourses([]);

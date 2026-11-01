@@ -63,7 +63,7 @@ function CourseList({ smallerCard = false, maxLimit = 100 }: Props) {
     try {
       setLoading(true);
       const result = await axios.get("/api/course");
-      setCourseList(result?.data);
+      setCourseList(Array.isArray(result?.data) ? result.data : []);
     } catch (error) {
       console.error("Failed to fetch courses:", error);
     } finally {

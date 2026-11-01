@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   const userEmail = user?.primaryEmailAddress?.emailAddress;
 
   if (!userEmail) {
-    return NextResponse.json({ error: "User not authenticated" });
+    return NextResponse.json({ error: "User not authenticated" }, { status: 401 });
   }
 
   if (courseId && courseId !== "enrolled") {
