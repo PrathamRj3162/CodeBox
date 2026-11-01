@@ -3,10 +3,26 @@
 import * as Clerk from '@clerk/elements/common'
 import * as SignIn from '@clerk/elements/sign-in'
 import Image from 'next/image'
+import { useUser } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function SignInPage() {
+    const { isSignedIn, isLoaded } = useUser()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (isLoaded && isSignedIn) {
+            router.replace('/dashboard')
+        }
+    }, [isLoaded, isSignedIn, router])
+
+    if (isLoaded && isSignedIn) {
+        return null
+    }
+
     return (
-        <div className="min-h-screen grid w-full items-center bg-zinc-100 px-4 font-mono text-sm">
+        <div className="min-h-screen grid w-full items-center bg-zinc-100 dark:bg-zinc-900 px-4 font-mono text-sm">
             <SignIn.Root>
                 <SignIn.Step
                     name="start"
