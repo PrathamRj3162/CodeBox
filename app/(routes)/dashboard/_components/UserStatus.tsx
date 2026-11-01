@@ -24,7 +24,7 @@ function UserStatus() {
         <div className="flex gap-3 items-center">
           <Image src={"/star.png"} alt="star" width={35} height={35} />
           <div>
-            <h2 className="text-3xl font-game">{userDetail?.points ?? 0}</h2>
+            <h2 className="text-3xl font-game">{userDetail?.points}</h2>
             <h2 className="font-game text-xl text-gray-500">Total Rewards</h2>
           </div>
         </div>

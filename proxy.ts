@@ -1,26 +1,12 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-const isPublicRoute = createRouteMatcher([
-  '/sign-in(.*)',
-  '/sign-up(.*)',
-  '/',
-  '/api/course(.*)',
-  '/pricing(.*)',
-]);
+const isPublicRoute = createRouteMatcher(['/sign-in(.*)' , '/sign-up(.*)' , '/'])
 
-export default function middleware(req: NextRequest, ev: NextFetchEvent) {
-  // If Clerk publishable key is not configured, pass through gracefully
-  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
-    return NextResponse.next();
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect()
   }
-
-  return clerkMiddleware(async (auth, request) => {
-    if (!isPublicRoute(request)) {
-      await auth.protect();
-    }
-  })(req, ev);
-}
+})
 
 export const config = {
   matcher: [
@@ -29,4 +15,4 @@ export const config = {
     // Always run for API routes
     '/(api|trpc)(.*)',
   ],
-};
+}

@@ -32,6 +32,7 @@ export function Provider({
   return (
     <NextThemesProvider {...props}>
       <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
+        {/* Header / Navbar */}
         <div className="flex flex-col items-center">
           <Header />
         </div>

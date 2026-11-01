@@ -25,15 +25,31 @@ function Header() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    GetCourses();
-  }, []);
+    // Only fetch courses if user is authenticated
+    if (isLoaded && user) {
+      GetCourses();
+    } else if (isLoaded && !user) {
+      // User is not logged in, don't fetch
+      setLoading(false);
+    }
+  }, [isLoaded, user]);
 
   const GetCourses = async () => {
     try {
       const result = await axios.get("/api/course");
+      console.log("API Response:", result.data);
+      
+      // Check if response has error (unauthenticated)
+      if (result.data?.error) {
+        console.error("API Error:", result.data.error);
+        setCourses([]);
+        return;
+      }
+      
       if (Array.isArray(result.data)) {
         setCourses(result.data);
       } else {
+        console.error("API did not return an array:", result.data);
         setCourses([]);
       }
     } catch (error) {
