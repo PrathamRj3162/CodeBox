@@ -10,6 +10,7 @@ import CodeEditor from "./_components/CodeEditor";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { getApiErrorMessage } from "@/lib/client/apiError";
 
 export type CourseExercise = {
   chapterId: number;
@@ -41,6 +42,7 @@ type ExerciseContent = {
 function Playground() {
   const { courseId, chapterId, exerciseslug } = useParams();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
 
   const [courseExerciseData, setCourseExerciseData] =
     useState<CourseExercise>();
@@ -55,15 +57,21 @@ function Playground() {
 
   const GetExerciseCourseDetail = async () => {
     setLoading(true);
-    const result = await axios.post("/api/exercise", {
-      courseId: courseId,
-      chapterId: chapterId,
-      exerciseId: exerciseslug,
-    });
-
-    console.log(result.data);
-    setCourseExerciseData(result.data);
-    setLoading(false);
+    setError(undefined);
+    try {
+      const result = await axios.post("/api/exercise", {
+        courseId: courseId,
+        chapterId: chapterId,
+        exerciseId: exerciseslug,
+      });
+      setCourseExerciseData(result.data);
+    } catch (err) {
+      setError(
+        getApiErrorMessage(err, "Could not load this exercise. Please try again."),
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -110,6 +118,19 @@ function Playground() {
         : undefined,
     );
   };
+
+  if (error) {
+    return (
+      <div className="font-game border-t-4 h-[calc(100vh-64px)] flex flex-col items-center justify-center gap-6 p-6 text-center">
+        <h2 className="text-3xl">{error}</h2>
+        <Link href={"/courses/" + courseId}>
+          <Button className="text-xl" variant={"pixel"}>
+            Back to course
+          </Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="border-t-4 h-[calc(100vh-64px)]">

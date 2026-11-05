@@ -1,18 +1,23 @@
 import React from "react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 function Hero() {
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <Image
-        src="/hero9.gif"
-        alt="Hero Image"
-        width={1000}
-        height={1000}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        poster="/hero9-poster.webp"
+        aria-hidden="true"
         className="w-full h-full object-cover absolute inset-0"
-      />
+      >
+        <source src="/hero9.webm" type="video/webm" />
+        <source src="/hero9.mp4" type="video/mp4" />
+      </video>
       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 -mt-36">
         <h2 className="font-bold text-6xl md:text-8xl font-game text-center">
           Start Your

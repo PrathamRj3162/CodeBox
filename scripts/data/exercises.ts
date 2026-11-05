@@ -1,8 +1,7 @@
-import { db } from "@/config/db"
-import { ExerciseTable } from "@/config/schema"
-import { NextRequest, NextResponse } from "next/server"
+// Seed data for the exercise table.
+// Moved verbatim from the old app/api/admin/save-exercises route.
 
-const DATA=[
+export const EXERCISE_SEED = [
   {
     "courseId": 4,
     "exerciseId": "why-hooks-exist",
@@ -218,20 +217,4 @@ const DATA=[
       "hintXp": 40
     }
   }
-]
-
-
-
-export async function GET(req: NextRequest) {
-    DATA.forEach(async (item) => {
-        await db.insert(ExerciseTable).values({
-            courseId: item?.courseId, 
-            chapterId: item?.chapterId,
-            exerciseId: item?.exerciseId,
-            exerciseName: item?.exerciseName,
-            exercisesContent: item?.exercisesContent
-        })
-    })
-    return NextResponse.json('Success')
-}
-
+];

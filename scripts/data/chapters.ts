@@ -1,9 +1,8 @@
-import { db } from "@/config/db"
-import { CourseChaptersTable } from "@/config/schema"
-import { NextRequest, NextResponse } from "next/server"
+// Seed data for the courseChapters table.
+// Moved verbatim from the old app/api/admin/save-chapters route.
+// Chapter `id` becomes `chapterId`; the course id is passed to the seed script.
 
-const DATA=
-[
+export const CHAPTER_SEED = [
     {
     "id": 1,
     "name": "Hooks Awakening",
@@ -348,20 +347,4 @@ const DATA=
       }
     ]
   }
-]
-
-
-
-export async function GET(req: NextRequest) {
-    DATA.forEach(async (item) => {
-        await db.insert(CourseChaptersTable).values({
-            courseId: 4, //Change Course ID depends on course info,
-            desc: item?.desc,
-            exercises: item.exercises,
-            name: item?.name,
-            chapterId: item?.id
-        })
-    })
-    return NextResponse.json('Success')
-}
-
+];
