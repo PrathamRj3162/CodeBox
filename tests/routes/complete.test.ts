@@ -40,7 +40,10 @@ beforeEach(async () => {
 });
 
 const complete = (body: unknown) => POST(post("/api/exercise/complete", body));
-const first = { courseId: COURSE_ID, chapterId: 1, exerciseId: 1 };
+const validCode = {
+  "/App.jsx": "<p>Hooks let function components use state</p>",
+};
+const first = { courseId: COURSE_ID, chapterId: 1, exerciseId: 1, files: validCode };
 
 async function xpOf(email: string) {
   const [row] = await db
@@ -75,7 +78,12 @@ describe("POST /api/exercise/complete: request checks", () => {
   });
 
   it("403 on a Pro chapter without Pro, and allowed with Pro", async () => {
-    const proChapter = { courseId: COURSE_ID, chapterId: 3, exerciseId: 1 };
+    const proChapter = {
+      courseId: COURSE_ID,
+      chapterId: 3,
+      exerciseId: 1,
+      files: { "/App.jsx": "<p>Context eliminates prop drilling</p>" },
+    };
     expect((await complete(proChapter)).status).toBe(403);
     signInAs("a@x.com", { pro: true });
     expect((await complete(proChapter)).status).toBe(200);
@@ -122,7 +130,39 @@ describe("POST /api/exercise/complete: XP rules", () => {
 
   it("adds up different exercises", async () => {
     const one = await (await complete(first)).json();
-    const two = await (await complete({ ...first, exerciseId: 2 })).json();
+    const two = await (
+      await complete({
+        ...first,
+        exerciseId: 2,
+        files: { "/App.jsx": "<p>Hooks follow strict rules</p>" },
+      })
+    ).json();
     expect(await xpOf("a@x.com")).toBe(one.xpEarned + two.xpEarned);
+  });
+});
+
+describe("POST /api/exercise/complete: code validation", () => {
+  it("rejects when files are missing for an exercise with validation regex", async () => {
+    const res = await complete({ courseId: COURSE_ID, chapterId: 1, exerciseId: 1 });
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toContain("submit your code");
+  });
+
+  it("rejects when code does not match exercise requirements", async () => {
+    const res = await complete({
+      ...first,
+      files: { "/App.jsx": "<div>Not matching yet</div>" },
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toContain("does not satisfy");
+  });
+
+  it("accepts when code matches exercise requirements", async () => {
+    const res = await complete(first);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.completed).toBe(true);
   });
 });

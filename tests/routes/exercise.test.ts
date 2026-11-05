@@ -98,7 +98,14 @@ describe("POST /api/exercise: response", () => {
   });
 
   it("only lists the signed-in user's completed exercises", async () => {
-    await completeRoute(post("/api/exercise/complete", { courseId: COURSE_ID, chapterId: 1, exerciseId: 1 }));
+    await completeRoute(
+      post("/api/exercise/complete", {
+        courseId: COURSE_ID,
+        chapterId: 1,
+        exerciseId: 1,
+        files: { "/App.jsx": "<p>Hooks let function components use state</p>" },
+      })
+    );
 
     const mine = await (await load({ courseId: COURSE_ID, chapterId: 1, exerciseId: slug1 })).json();
     expect(mine.completedExercise).toHaveLength(1);

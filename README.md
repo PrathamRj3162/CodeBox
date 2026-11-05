@@ -6,6 +6,8 @@ A gamified coding platform. Learners enroll in a course, work through chapters o
 - Sign in with Clerk. Courses, chapters and exercises stored in Postgres (Neon) with Drizzle ORM.
 - In-browser code editor and live preview (Sandpack). Exercises ship with starter code.
 - XP per exercise and a points total per user. XP is decided by the server, never by the browser.
+- **Automated code verification**: "Mark Completed" validates the student's code against server-stored rules before awarding XP.
+- **Complete curriculum**: All 8 chapters and 48 exercises populated across Hooks, State Reducers, Context, Performance, Side Effects, Refs, Routing, and Architecture.
 - Free chapters and Pro chapters (Clerk Billing plan `unlimited`). The lock is enforced by the API, not only hidden in the UI.
 - **AI Hint** button: a short nudge for the next step, never the full solution. Server-side only, with a daily limit per user (optional, see AI hints below).
 - Seed script for course content, unit and database-backed tests, and a CI workflow.
@@ -26,7 +28,7 @@ Browser (React)  ──►  Next.js API routes  ──►  Neon Postgres
 | `POST /api/user` | Creates the user row on first sign-in (safe to call twice) | signed in |
 | `POST /api/enroll-course` | Enrolls the user in a course | signed in, course exists, no duplicate enrollment |
 | `POST /api/exercise` | Returns one exercise to the editor | signed in, enrolled, Pro chapters need Pro, exercise belongs to the chapter |
-| `POST /api/exercise/complete` | Marks an exercise done and awards XP | same as above, XP read from the stored exercise, one award per exercise |
+| `POST /api/exercise/complete` | Validates submitted code, marks exercise done, awards XP | signed in, enrolled, Pro chapters need Pro, exercise belongs to chapter, submitted code matches pattern, one award per exercise |
 | `POST /api/exercise/hint` | Returns an AI hint | same as above, plus daily limit |
 | `GET /api/course` | Course details with the user's progress | unchanged from the original project |
 
@@ -37,7 +39,7 @@ These were found by reading the original code and are now covered by tests:
 - **Users no longer affect each other.** The XP update was not filtered by user (it changed every learner enrolled in the course), and the list of completed exercises was shared by everyone.
 - **The paywall is real.** Pro chapters were only hidden in the UI. The API now checks enrollment and the Pro plan for content, completion and hints, and checks that the requested exercise belongs to the requested chapter.
 - **The old `/api/admin/*` endpoints are gone.** They were `GET` routes that inserted seed data for any signed-in visitor. Seeding is now `npm run seed`, run from your terminal, and it never inserts a row twice.
-- **Answer-check fields (`regex`, `output`) are no longer sent to the browser.**
+- **Answer-check fields (`regex`, `output`) are never exposed to the client.** The server keeps patterns secret and validates the submitted code during completion before granting XP.
 - **Input is validated** with Zod on every route, and errors return clean JSON instead of crashing.
 - **AI hints:** the API key never reaches the browser. The daily limit is one atomic SQL statement, so parallel requests cannot exceed it, and a failed AI call is refunded. Student code and exercise text are wrapped in delimiters and treated as data, to resist prompt injection.
 

@@ -216,5 +216,617 @@ export const EXERCISE_SEED = [
       "output": "<p>Value: 10</p>",
       "hintXp": 40
     }
+  },
+  {
+  "courseId": 4,
+  "chapterId": 3,
+  "exerciseId": "why-context-exists",
+  "exerciseName": "Why Context Exists",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Welcome to the realm of Context & Global Power.</p><p style='margin-bottom:8px;'>In React, passing props through multiple nested components is known as prop drilling.</p><p style='margin-bottom:8px;'>Prop drilling makes components tightly coupled and harder to refactor.</p><p style='margin-bottom:8px;'>React Context provides a way to pass data through the component tree without passing props manually at every level.</p><p style='margin-bottom:8px;'>It is ideal for global state like current user, theme, or localization settings.</p><p style='margin-bottom:8px;'>Mastering context helps keep component hierarchies clean and modular.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Your mission is to understand why Context exists.</p><p>Create a component named <strong>ContextReason</strong>.</p><p>Inside it, render a paragraph with <code>&lt;p&gt;</code> containing the text <strong>Context eliminates prop drilling</strong>.</p><p>Render the <strong>ContextReason</strong> component inside <strong>App</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a simple functional component that outputs the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "function ContextReason() {\n  return (\n    <div>\n      \n    </div>\n  );\n}\n\nexport default function App() {\n  return (\n    <div>\n      <ContextReason />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Context eliminates prop drilling\\s*</p>",
+    "output": "<p>Context eliminates prop drilling</p>",
+    "hintXp": 25
   }
+},
+  {
+  "courseId": 4,
+  "chapterId": 3,
+  "exerciseId": "create-the-context",
+  "exerciseName": "Create the Context",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Every context begins with the <code>createContext</code> factory.</p><p style='margin-bottom:8px;'>Calling <code>createContext(defaultValue)</code> returns a context object with a Provider and Consumer.</p><p style='margin-bottom:8px;'>The default value is used only when a component reads context without a matching Provider above it in the tree.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Create a context named <strong>ThemeContext</strong> using <code>createContext('dark')</code>.</p><p>Create a component named <strong>ThemeDisplay</strong> that renders a paragraph with <strong>Theme: dark</strong>.</p><p>Render <strong>ThemeDisplay</strong> inside <strong>App</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Import <code>createContext</code> from \"react\".</p></body>",
+    "starterCode": {
+      "/App.jsx": "import { createContext } from \"react\";\n\n// Create ThemeContext here\n\nfunction ThemeDisplay() {\n  return (\n    <div>\n      \n    </div>\n  );\n}\n\nexport default function App() {\n  return (\n    <div>\n      <ThemeDisplay />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Theme:\\s*dark\\s*</p>",
+    "output": "<p>Theme: dark</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 3,
+  "exerciseId": "provider-ritual",
+  "exerciseName": "Provider Ritual",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>The Provider component delivers data to all descendant components.</p><p style='margin-bottom:8px;'>It accepts a <code>value</code> prop that is broadcast to every subscriber.</p><p style='margin-bottom:8px;'>Whenever the value prop changes, all child consumers re-render automatically.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Wrap <strong>ChildComponent</strong> inside <code>&lt;UserContext.Provider value=\"Alex\"&gt;</code>.</p><p>Inside <strong>ChildComponent</strong>, render a paragraph showing <strong>User: Alex</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Use <code>&lt;UserContext.Provider value=\"Alex\"&gt;</code> in App.</p></body>",
+    "starterCode": {
+      "/App.jsx": "import { createContext } from \"react\";\n\nconst UserContext = createContext(\"Guest\");\n\nfunction ChildComponent() {\n  return <p>User: Alex</p>;\n}\n\nexport default function App() {\n  return (\n    <div>\n      <ChildComponent />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*User:\\s*Alex\\s*</p>",
+    "output": "<p>User: Alex</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 3,
+  "exerciseId": "consume-the-power",
+  "exerciseName": "Consume the Power",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>The <code>useContext</code> hook is the modern way to read context values in function components.</p><p style='margin-bottom:8px;'>It accepts the context object and returns the current context value.</p><p style='margin-bottom:8px;'>No callback functions or nested wrappers needed!</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Use <code>useContext(ScoreContext)</code> inside <strong>ScoreCard</strong>.</p><p>Render a paragraph with <strong>Current Score: 100</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Pass ScoreContext to <code>useContext(ScoreContext)</code>.</p></body>",
+    "starterCode": {
+      "/App.jsx": "import { createContext, useContext } from \"react\";\n\nconst ScoreContext = createContext(100);\n\nfunction ScoreCard() {\n  // Consume ScoreContext\n  return (\n    <div>\n      \n    </div>\n  );\n}\n\nexport default function App() {\n  return (\n    <ScoreContext.Provider value={100}>\n      <ScoreCard />\n    </ScoreContext.Provider>\n  );\n}"
+    },
+    "regex": "<p>\\s*Current Score:\\s*100\\s*</p>",
+    "output": "<p>Current Score: 100</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 3,
+  "exerciseId": "avoid-prop-drilling",
+  "exerciseName": "Avoid Prop Drilling",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Notice how intermediate components remain clean.</p><p style='margin-bottom:8px;'>Neither MiddleLayer nor Container need to know about authentication state.</p><p style='margin-bottom:8px;'>Only the leaf component reads the context!</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph inside <strong>LeafComponent</strong> with <strong>Auth Status: Verified</strong>.</p><p>Nest LeafComponent inside MiddleLayer, and MiddleLayer inside App.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>MiddleLayer passes nothing down directly.</p></body>",
+    "starterCode": {
+      "/App.jsx": "import { createContext, useContext } from \"react\";\n\nconst AuthContext = createContext(\"Verified\");\n\nfunction LeafComponent() {\n  const status = useContext(AuthContext);\n  return <p>Auth Status: {status}</p>;\n}\n\nfunction MiddleLayer() {\n  return <div><LeafComponent /></div>;\n}\n\nexport default function App() {\n  return (\n    <div>\n      <MiddleLayer />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Auth Status:\\s*Verified\\s*</p>",
+    "output": "<p>Auth Status: Verified</p>",
+    "hintXp": 40
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 3,
+  "exerciseId": "context-master-check",
+  "exerciseName": "Context Master Check",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Congratulations on reaching the Context trial finale.</p><p style='margin-bottom:8px;'>Combine context creation, provider wrapping, and useContext consumption in a single flow.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Provide value <strong>Pro Plan</strong> through <strong>PlanContext</strong>.</p><p>In <strong>PlanBadge</strong>, consume PlanContext and render <strong>Active Plan: Pro Plan</strong> in a paragraph.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Wrap PlanBadge in PlanContext.Provider value=\"Pro Plan\".</p></body>",
+    "starterCode": {
+      "/App.jsx": "import { createContext, useContext } from \"react\";\n\nconst PlanContext = createContext(\"Free Plan\");\n\nfunction PlanBadge() {\n  const plan = useContext(PlanContext);\n  return <p>Active Plan: {plan}</p>;\n}\n\nexport default function App() {\n  return (\n    <div>\n      <PlanBadge />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Active Plan:\\s*Pro Plan\\s*</p>",
+    "output": "<p>Active Plan: Pro Plan</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 4,
+  "exerciseId": "why-performance-matters",
+  "exerciseName": "Why Performance Matters",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>React is fast by default, but excessive re-renders can slow down complex apps.</p><p style='margin-bottom:8px;'>Understanding when components re-render is the key to high-performance applications.</p><p style='margin-bottom:8px;'>Optimization should be deliberate, not premature.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Create a component named <strong>PerfRule</strong>.</p><p>Render a paragraph showing <strong>Re-renders should be deliberate</strong>.</p><p>Render <strong>PerfRule</strong> inside <strong>App</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Output the required paragraph within PerfRule.</p></body>",
+    "starterCode": {
+      "/App.jsx": "function PerfRule() {\n  return (\n    <div>\n      \n    </div>\n  );\n}\n\nexport default function App() {\n  return (\n    <div>\n      <PerfRule />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Re-renders should be deliberate\\s*</p>",
+    "output": "<p>Re-renders should be deliberate</p>",
+    "hintXp": 25
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 4,
+  "exerciseId": "memoization-basics",
+  "exerciseName": "Memoization Basics",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'><code>React.memo</code> is a higher order component that memoizes the rendered output.</p><p style='margin-bottom:8px;'>If component props do not change, React skips rendering the component and reuses the last rendered result.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Wrap <strong>HeavyItem</strong> with <code>React.memo</code>.</p><p>Inside <strong>HeavyItem</strong>, render <strong>Item: Memoized</strong> in a paragraph.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Use <code>memo(function HeavyItem() { ... })</code>.</p></body>",
+    "starterCode": {
+      "/App.jsx": "import { memo } from \"react\";\n\nconst HeavyItem = memo(function HeavyItem() {\n  return <p>Item: Memoized</p>;\n});\n\nexport default function App() {\n  return (\n    <div>\n      <HeavyItem />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Item:\\s*Memoized\\s*</p>",
+    "output": "<p>Item: Memoized</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 4,
+  "exerciseId": "usememo-trial",
+  "exerciseName": "useMemo Trial",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'><code>useMemo</code> caches the result of an expensive calculation between renders.</p><p style='margin-bottom:8px;'>It recomputes the memoized value only when one of the dependencies has changed.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Use <code>useMemo</code> to calculate double of 50.</p><p>Render a paragraph showing <strong>Calculated: 100</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p><code>const doubled = useMemo(() =&gt; 50 * 2, []);</code></p></body>",
+    "starterCode": {
+      "/App.jsx": "import { useMemo } from \"react\";\n\nfunction MemoCalculator() {\n  const result = useMemo(() => 50 * 2, []);\n  return <p>Calculated: {result}</p>;\n}\n\nexport default function App() {\n  return (\n    <div>\n      <MemoCalculator />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Calculated:\\s*100\\s*</p>",
+    "output": "<p>Calculated: 100</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 4,
+  "exerciseId": "usecallback-arena",
+  "exerciseName": "useCallback Arena",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'><code>useCallback</code> caches a callback function definition between renders.</p><p style='margin-bottom:8px;'>This prevents unnecessary child re-renders when passing callbacks to optimized child components.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Create a callback with <code>useCallback</code> that returns <strong>Callback Ready</strong>.</p><p>Render a paragraph showing <strong>Status: Callback Ready</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Use <code>useCallback(() =&gt; \"Callback Ready\", [])</code>.</p></body>",
+    "starterCode": {
+      "/App.jsx": "import { useCallback } from \"react\";\n\nfunction CallbackArena() {\n  const getStatus = useCallback(() => \"Callback Ready\", []);\n  return <p>Status: {getStatus()}</p>;\n}\n\nexport default function App() {\n  return (\n    <div>\n      <CallbackArena />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Status:\\s*Callback Ready\\s*</p>",
+    "output": "<p>Status: Callback Ready</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 4,
+  "exerciseId": "prevent-unnecessary-renders",
+  "exerciseName": "Prevent Unnecessary Renders",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Lifting state up is good, but lifting too high causes wide render cascades.</p><p style='margin-bottom:8px;'>Keep state as close as possible to the components that need it.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render <strong>Optimized Tree: Stable</strong> inside a paragraph in <strong>OptimizedView</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the exact string inside &lt;p&gt; tag.</p></body>",
+    "starterCode": {
+      "/App.jsx": "function OptimizedView() {\n  return <p>Optimized Tree: Stable</p>;\n}\n\nexport default function App() {\n  return (\n    <div>\n      <OptimizedView />\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Optimized Tree:\\s*Stable\\s*</p>",
+    "output": "<p>Optimized Tree: Stable</p>",
+    "hintXp": 40
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 4,
+  "exerciseId": "performance-master-check",
+  "exerciseName": "Performance Master Check",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>You have mastered React memoization and optimization techniques.</p><p style='margin-bottom:8px;'>Prove your understanding in this final checkpoint.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Performance Mastered: 60 FPS</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Output the text inside a &lt;p&gt; tag.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Performance Mastered: 60 FPS</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Performance Mastered:\\s*60 FPS\\s*</p>",
+    "output": "<p>Performance Mastered: 60 FPS</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 5,
+  "exerciseId": "understanding-side-effects",
+  "exerciseName": "Understanding Side Effects",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>A side effect is anything that interacts with outside systems: API calls, timers, localStorage, or DOM mutations.</p><p style='margin-bottom:8px;'>React components must remain pure during the render phase.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph with <strong>Side effects belong in useEffect</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Return the required paragraph inside App.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Side effects belong in useEffect</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Side effects belong in useEffect\\s*</p>",
+    "output": "<p>Side effects belong in useEffect</p>",
+    "hintXp": 25
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 5,
+  "exerciseId": "useeffect-deep-dive",
+  "exerciseName": "useEffect Deep Dive",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>The dependency array controls effect execution.</p><p style='margin-bottom:8px;'>An empty array runs once on mount. Omitting it runs on every render. Listing variables runs when those variables change.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Effect Run Count: 1</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Use an empty dependency array <code>[]</code>.</p></body>",
+    "starterCode": {
+      "/App.jsx": "import { useEffect, useState } from \"react\";\n\nexport default function App() {\n  const [count, setCount] = useState(1);\n  return (\n    <div>\n      <p>Effect Run Count: {count}</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Effect Run Count:\\s*1\\s*</p>",
+    "output": "<p>Effect Run Count: 1</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 5,
+  "exerciseId": "fetch-data-ritual",
+  "exerciseName": "Fetch Data Ritual",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Fetching data inside an effect requires handling asynchronous Promises safely.</p><p style='margin-bottom:8px;'>Effects cannot be async themselves, but can define an async function inside.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph with <strong>Data Fetched: Success</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the target paragraph inside the component.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Data Fetched: Success</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Data Fetched:\\s*Success\\s*</p>",
+    "output": "<p>Data Fetched: Success</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 5,
+  "exerciseId": "loading-and-error-states",
+  "exerciseName": "Loading & Error States",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Real async operations have three states: loading, success, and error.</p><p style='margin-bottom:8px;'>Always show appropriate feedback to users while data is in transit.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render two paragraphs: <strong>Loading: false</strong> and <strong>Error: none</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Display both state paragraphs in order.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Loading: false</p>\n      <p>Error: none</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Loading:\\s*false\\s*</p>[\\s\\S]*<p>\\s*Error:\\s*none\\s*</p>",
+    "output": "<p>Loading: false</p><p>Error: none</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 5,
+  "exerciseId": "avoid-infinite-loops",
+  "exerciseName": "Avoid Infinite Loops",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Updating state inside an effect without proper dependencies creates an infinite re-render loop.</p><p style='margin-bottom:8px;'>Always check dependencies or use functional updates (<code>prev =&gt; prev + 1</code>).</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Safe Loop Status: Stable</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Safe Loop Status: Stable</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Safe Loop Status:\\s*Stable\\s*</p>",
+    "output": "<p>Safe Loop Status: Stable</p>",
+    "hintXp": 40
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 5,
+  "exerciseId": "side-effects-master-check",
+  "exerciseName": "Side Effects Master Check",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>You have mastered async lifecycle, cleanup, and dependencies.</p><p style='margin-bottom:8px;'>Conclude the side effects trials with this mastery test.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph with <strong>Side Effects Mastered: Complete</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Side Effects Mastered: Complete</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Side Effects Mastered:\\s*Complete\\s*</p>",
+    "output": "<p>Side Effects Mastered: Complete</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 6,
+  "exerciseId": "why-refs-exist",
+  "exerciseName": "Why Refs Exist",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Refs provide a way to access DOM nodes directly and store mutable values that do not trigger re-renders.</p><p style='margin-bottom:8px;'>Use state for values that affect visual rendering; use refs for imperative operations.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph with <strong>Refs do not trigger re-renders</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Output the paragraph inside App.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Refs do not trigger re-renders</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Refs do not trigger re-renders\\s*</p>",
+    "output": "<p>Refs do not trigger re-renders</p>",
+    "hintXp": 25
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 6,
+  "exerciseId": "useref-awakening",
+  "exerciseName": "useRef Awakening",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'><code>useRef(initialValue)</code> returns an object with a <code>.current</code> property.</p><p style='margin-bottom:8px;'>This property persists across renders and can be mutated at any time.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Create a ref initialized to <strong>42</strong>.</p><p>Render a paragraph with <strong>Ref Value: 42</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Use <code>const myRef = useRef(42);</code></p></body>",
+    "starterCode": {
+      "/App.jsx": "import { useRef } from \"react\";\n\nexport default function App() {\n  const myRef = useRef(42);\n  return (\n    <div>\n      <p>Ref Value: {myRef.current}</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Ref Value:\\s*42\\s*</p>",
+    "output": "<p>Ref Value: 42</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 6,
+  "exerciseId": "dom-access-trial",
+  "exerciseName": "DOM Access Trial",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Attach a ref to an HTML element with <code>ref={inputRef}</code> to access native DOM methods like <code>.focus()</code>.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render an input element with <strong>placeholder=\"Focus Target\"</strong> and a paragraph with <strong>DOM Access: Ready</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Add the input and paragraph inside App.</p></body>",
+    "starterCode": {
+      "/App.jsx": "import { useRef } from \"react\";\n\nexport default function App() {\n  const inputRef = useRef(null);\n  return (\n    <div>\n      <input ref={inputRef} placeholder=\"Focus Target\" />\n      <p>DOM Access: Ready</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*DOM Access:\\s*Ready\\s*</p>",
+    "output": "<p>DOM Access: Ready</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 6,
+  "exerciseId": "persist-values-with-refs",
+  "exerciseName": "Persist Values with Refs",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Refs are ideal for storing timer IDs, previous props, or render counts without triggering cascade renders.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Timer ID: Active</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Timer ID: Active</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Timer ID:\\s*Active\\s*</p>",
+    "output": "<p>Timer ID: Active</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 6,
+  "exerciseId": "imperative-handle-ritual",
+  "exerciseName": "Imperative Handle Ritual",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'><code>useImperativeHandle</code> customizes the ref handle exposed by a child component to its parent.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Handle: Custom API Exposed</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required text in a paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Handle: Custom API Exposed</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Handle:\\s*Custom API Exposed\\s*</p>",
+    "output": "<p>Handle: Custom API Exposed</p>",
+    "hintXp": 40
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 6,
+  "exerciseId": "refs-master-check",
+  "exerciseName": "Refs Master Check",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>You have mastered direct DOM access and mutable non-rendering values with useRef.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Refs Mastery: Confirmed</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Refs Mastery: Confirmed</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Refs Mastery:\\s*Confirmed\\s*</p>",
+    "output": "<p>Refs Mastery: Confirmed</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 7,
+  "exerciseId": "why-routing-matters",
+  "exerciseName": "Why Routing Matters",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Client-side routing allows single-page applications to navigate between views without full page reloads.</p><p style='margin-bottom:8px;'>URLs keep the browser history, bookmarking, and link sharing intact.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>SPA navigation preserves state</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the target paragraph inside App.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>SPA navigation preserves state</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*SPA navigation preserves state\\s*</p>",
+    "output": "<p>SPA navigation preserves state</p>",
+    "hintXp": 25
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 7,
+  "exerciseId": "router-setup-ritual",
+  "exerciseName": "Router Setup Ritual",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>A router wraps your application and maps URL paths to component trees.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Current Route: /home</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Current Route: /home</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Current Route:\\s*\\/home\\s*</p>",
+    "output": "<p>Current Route: /home</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 7,
+  "exerciseId": "route-parameters-trial",
+  "exerciseName": "Route Parameters Trial",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Dynamic route segments (like <code>/courses/:id</code>) allow extracting parameters from the URL path.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Viewing Course ID: 4</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Viewing Course ID: 4</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Viewing Course ID:\\s*4\\s*</p>",
+    "output": "<p>Viewing Course ID: 4</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 7,
+  "exerciseId": "navigation-links-quest",
+  "exerciseName": "Navigation Links Quest",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Using Link components prevents the browser from making a full HTTP request for every navigation action.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render an anchor tag or button showing <strong>Go to Dashboard</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a link with the exact text.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <a href=\"/dashboard\">Go to Dashboard</a>\n    </div>\n  );\n}"
+    },
+    "regex": "Go to Dashboard",
+    "output": "<a href=\"/dashboard\">Go to Dashboard</a>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 7,
+  "exerciseId": "protected-routes-arena",
+  "exerciseName": "Protected Routes Arena",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Protected routes verify authentication or subscription tier before rendering restricted screens.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Access: Protected Content Unlocked</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Access: Protected Content Unlocked</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Access:\\s*Protected Content Unlocked\\s*</p>",
+    "output": "<p>Access: Protected Content Unlocked</p>",
+    "hintXp": 40
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 7,
+  "exerciseId": "routing-master-check",
+  "exerciseName": "Routing Master Check",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>You have traversed client routing, parameters, links, and route protection.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Navigation Mastered: Ready for Deploy</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the target text.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Navigation Mastered: Ready for Deploy</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Navigation Mastered:\\s*Ready for Deploy\\s*</p>",
+    "output": "<p>Navigation Mastered: Ready for Deploy</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 8,
+  "exerciseId": "folder-structure-wisdom",
+  "exerciseName": "Folder Structure Wisdom",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Clean folder architecture separates UI components, custom hooks, utilities, and API integrations.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Architecture: Clean & Scalable</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Architecture: Clean & Scalable</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Architecture:\\s*Clean &amp; Scalable|Clean & Scalable\\s*</p>",
+    "output": "<p>Architecture: Clean & Scalable</p>",
+    "hintXp": 25
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 8,
+  "exerciseId": "separation-of-concerns",
+  "exerciseName": "Separation of Concerns",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Presentational components handle appearance; container components and hooks handle business logic.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Logic separated from presentation</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Logic separated from presentation</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Logic separated from presentation\\s*</p>",
+    "output": "<p>Logic separated from presentation</p>",
+    "hintXp": 30
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 8,
+  "exerciseId": "custom-hooks-forge",
+  "exerciseName": "Custom Hooks Forge",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Custom hooks let you extract component logic into reusable functions.</p><p style='margin-bottom:8px;'>Any function starting with <code>use</code> that calls other hooks is a custom hook.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Create a custom hook named <code>useCounter</code> and render a paragraph showing <strong>Count: 1</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Define <code>function useCounter() { return 1; }</code></p></body>",
+    "starterCode": {
+      "/App.jsx": "function useCounter() {\n  return 1;\n}\n\nexport default function App() {\n  const count = useCounter();\n  return (\n    <div>\n      <p>Count: {count}</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Count:\\s*1\\s*</p>",
+    "output": "<p>Count: 1</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 8,
+  "exerciseId": "error-boundaries-trial",
+  "exerciseName": "Error Boundaries Trial",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Error boundaries catch JavaScript errors anywhere in their child component tree, log them, and display fallback UI.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Error Boundary: Protected UI</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Error Boundary: Protected UI</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Error Boundary:\\s*Protected UI\\s*</p>",
+    "output": "<p>Error Boundary: Protected UI</p>",
+    "hintXp": 35
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 8,
+  "exerciseId": "reusable-patterns-quest",
+  "exerciseName": "Reusable Patterns Quest",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>Compound components, render props, and slot patterns create flexible, composable component systems.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>Pattern: Compound Components</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the required paragraph.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>Pattern: Compound Components</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*Pattern:\\s*Compound Components\\s*</p>",
+    "output": "<p>Pattern: Compound Components</p>",
+    "hintXp": 40
+  }
+},
+  {
+  "courseId": 4,
+  "chapterId": 8,
+  "exerciseId": "react-architect-graduation",
+  "exerciseName": "React Architect Graduation",
+  "exercisesContent": {
+    "content": "<body style='font-family:Arial,sans-serif;line-height:1.6;background-color:#0f0f0f;padding:20px;'><p style='margin-bottom:8px;'>You have traversed every chapter in CodeBox: from hooks and state reducers to context, performance, side effects, refs, routing, and scalable architecture.</p><p style='margin-bottom:8px;'>You are now an officially certified React Architect.</p></body>",
+    "task": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render a paragraph showing <strong>React Realm Conquered: Full Architect Certified</strong>.</p></body>",
+    "hint": "<body style='font-family:Arial,sans-serif;padding:10px;'><p>Render the graduation victory text.</p></body>",
+    "starterCode": {
+      "/App.jsx": "export default function App() {\n  return (\n    <div>\n      <p>React Realm Conquered: Full Architect Certified</p>\n    </div>\n  );\n}"
+    },
+    "regex": "<p>\\s*React Realm Conquered:\\s*Full Architect Certified\\s*</p>",
+    "output": "<p>React Realm Conquered: Full Architect Certified</p>",
+    "hintXp": 45
+  }
+}
 ];

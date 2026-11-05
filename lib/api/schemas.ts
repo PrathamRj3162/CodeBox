@@ -20,6 +20,9 @@ export const completeBody = z.object({
   courseId: id,
   chapterId: id,
   exerciseId: id,
+  files: z
+    .record(z.string().min(1).max(200), z.string().max(MAX_HINT_FILE_CHARS))
+    .optional(),
 });
 
 export const hintBody = z.object({

@@ -28,7 +28,7 @@ type Props = {
 };
 
 type ChildrenProps = {
-  onCompleteExercise: () => void;
+  onCompleteExercise: (files: Record<string, string>) => void;
   isCompleted: boolean;
   completing: boolean;
   courseId?: number;
@@ -80,6 +80,18 @@ const CodeEditorChildren = ({
     }
   };
 
+  const handleComplete = () => {
+    const files: Record<string, string> = {};
+    for (const [path, fileObj] of Object.entries(sandpack.files)) {
+      if (typeof fileObj === "string") {
+        files[path] = fileObj;
+      } else if (fileObj && typeof fileObj.code === "string") {
+        files[path] = fileObj.code;
+      }
+    }
+    onCompleteExercise(files);
+  };
+
   return (
     <div className="font-game absolute bottom-42 flex gap-5 right-5">
       <Button
@@ -103,10 +115,14 @@ const CodeEditorChildren = ({
         variant={"pixel"}
         className="bg-[#a3e534] text-xl"
         size={"lg"}
-        onClick={() => onCompleteExercise()}
+        onClick={handleComplete}
         disabled={isCompleted || completing}
       >
-        {isCompleted ? "Already Completed !" : "Mark Completed !"}
+        {isCompleted
+          ? "Already Completed !"
+          : completing
+          ? "Verifying..."
+          : "Mark Completed !"}
       </Button>
 
       <Dialog open={hint !== null} onOpenChange={(open) => !open && setHint(null)}>
@@ -147,17 +163,18 @@ function CodeEditor({ courseExerciseData, loading }: Props) {
     : false;
   const isCompleted = savedAsCompleted || completedKey === exerciseKey;
 
-  const onCompleteExercise = async () => {
+  const onCompleteExercise = async (files?: Record<string, string>) => {
     if (!courseExerciseData || !hasExercise || completing || isCompleted) {
       return;
     }
     setCompleting(true);
     try {
-      // XP is decided by the server from the stored exercise
+      // Validated by the server against the exercise's expected pattern
       const result = await axios.post("/api/exercise/complete", {
         courseId: courseExerciseData.courseId,
         chapterId: courseExerciseData.chapterId,
         exerciseId: exerciseIndex + 1,
+        files,
       });
       setCompletedKey(exerciseKey);
       toast.success(

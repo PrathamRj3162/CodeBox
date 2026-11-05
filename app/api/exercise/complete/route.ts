@@ -2,8 +2,10 @@ import { db } from "@/config/db";
 import {
   CompletedExerciseTable,
   EnrolledCourseTable,
+  ExerciseTable,
   usersTable,
 } from "@/config/schema";
+import { validateExerciseCode } from "@/lib/api/codeValidation";
 import { checkChapterAccess } from "@/lib/api/exerciseAccess";
 import { getExerciseByNumber, xpOf } from "@/lib/api/exercises";
 import { jsonError, readJson, serverError } from "@/lib/api/http";
@@ -19,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     const parsed = completeBody.safeParse(await readJson(req));
     if (!parsed.success) return jsonError("Invalid request.", 400);
-    const { courseId, chapterId, exerciseId } = parsed.data;
+    const { courseId, chapterId, exerciseId, files } = parsed.data;
 
     const access = await checkChapterAccess(db, {
       email: session.email,
@@ -31,6 +33,29 @@ export async function POST(req: NextRequest) {
 
     const exercise = getExerciseByNumber(access.chapter.exercises, exerciseId);
     if (!exercise) return jsonError("Exercise not found.", 404);
+
+    // Validate the submitted code against the exercise's target regex rules
+    const [exerciseRecord] = await db
+      .select({ exercisesContent: ExerciseTable.exercisesContent })
+      .from(ExerciseTable)
+      .where(
+        and(
+          eq(ExerciseTable.courseId, courseId),
+          eq(ExerciseTable.exerciseId, exercise.slug)
+        )
+      )
+      .limit(1);
+
+    const content = exerciseRecord?.exercisesContent as
+      | Record<string, unknown>
+      | undefined;
+    const regexPattern =
+      typeof content?.regex === "string" ? content.regex : null;
+
+    const validation = validateExerciseCode(files, regexPattern);
+    if (!validation.ok) {
+      return jsonError(validation.error, 400);
+    }
 
     // XP comes from the stored exercise. Anything the client sends is ignored.
     const xp = xpOf(exercise);

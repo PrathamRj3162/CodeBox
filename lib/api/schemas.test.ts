@@ -36,6 +36,16 @@ describe("completeBody", () => {
     expect(result.success && "xpEarned" in result.data).toBe(false);
   });
 
+  it("accepts an optional files map", () => {
+    const withFiles = completeBody.safeParse({
+      courseId: 4,
+      chapterId: 1,
+      exerciseId: 1,
+      files: { "/App.jsx": "console.log(1)" },
+    });
+    expect(withFiles.success).toBe(true);
+  });
+
   it("rejects a non-numeric exercise id", () => {
     expect(completeBody.safeParse({ courseId: 4, chapterId: 1, exerciseId: "slug" }).success).toBe(false);
   });
