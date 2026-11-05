@@ -26,8 +26,8 @@ export async function POST(req: NextRequest) {
 
     // Not configured: say so before using any of the user's daily quota.
     const apiKey = process.env.GEMINI_API_KEY;
-    const model = process.env.AI_MODEL;
-    if (!apiKey || !model) {
+    const model = process.env.AI_MODEL || "gemini-3.5-flash-lite";
+    if (!apiKey) {
       return jsonError("AI hints are not configured on this server.", 503);
     }
 
