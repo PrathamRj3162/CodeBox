@@ -20,19 +20,18 @@ function CourseStatus({ courseDetail }: Props) {
   
     const GetCounts = () => {
     let totalExcercises = 0;
-    let totalXp=0;
+    let totalXp = 0;
     courseDetail?.chapters?.forEach((chapter) => {
-      totalExcercises = totalExcercises + chapter?.exercises?.length;
-      chapter?.exercises?.forEach(exc=>{
-        totalXp=totalXp+exc?.xp
-      })
-    })
+      totalExcercises += chapter?.exercises?.length || 0;
+      chapter?.exercises?.forEach((exc) => {
+        totalXp += exc?.xp || 0;
+      });
+    });
 
     setCounts({
-        totalExce:totalExcercises,
-        totalXp:totalXp
-      })
-
+      totalExce: totalExcercises,
+      totalXp: totalXp,
+    });
   };
 
   const UpdateProgress = (currentValue: number, totalValue: number): number => {

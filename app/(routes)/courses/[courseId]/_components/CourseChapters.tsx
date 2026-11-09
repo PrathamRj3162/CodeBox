@@ -23,7 +23,12 @@ type Props = {
 
 function CourseChapters({ loading, courseDetail }: Props) {
   const { has } = useAuth();
-  const hasUnlimitedAccess = has && has({ plan: "unlimited" });
+  let hasUnlimitedAccess = false;
+  try {
+    hasUnlimitedAccess = Boolean(has && has({ plan: "unlimited" }));
+  } catch {
+    hasUnlimitedAccess = false;
+  }
 
   const EnableExercise = (
     chapterIndex: number,

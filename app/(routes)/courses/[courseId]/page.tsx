@@ -15,6 +15,7 @@ function CourseDetail() {
   const { courseId } = useParams();
   const [courseDetail, setCourseDetail] = useState<Course>();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     courseId && GetCourseDetail();
@@ -22,11 +23,32 @@ function CourseDetail() {
 
   const GetCourseDetail = async () => {
     setLoading(true);
-    const result = await axios.get("/api/course?courseid=" + courseId);
-    console.log(result.data);
-    setCourseDetail(result?.data);
-    setLoading(false);
+    setError(undefined);
+    try {
+      const result = await axios.get("/api/course?courseid=" + courseId);
+      if (result.data?.error) {
+        setError(result.data.error);
+      } else {
+        setCourseDetail(result?.data);
+      }
+    } catch (err) {
+      console.error("Failed to load course details:", err);
+      setError("Unable to load this course at this moment.");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (error) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 text-center font-game">
+        <h2 className="text-3xl text-yellow-400 mb-4">{error}</h2>
+        <a href="/courses" className="text-xl underline text-gray-300 hover:text-white">
+          ← Back to All Courses
+        </a>
+      </div>
+    );
+  }
 
   return (
     <div>

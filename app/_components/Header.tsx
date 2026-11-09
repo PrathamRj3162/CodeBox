@@ -117,6 +117,43 @@ function Header() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
+      ) : !exerciseslug && !loading ? (
+        <NavigationMenu>
+          <NavigationMenuList className="gap-8">
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/courses"
+                className="font-game text-2xl"
+              >
+                Courses
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/projects"
+                className="font-game text-2xl"
+              >
+                Projects
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/pricing"
+                className="font-game text-2xl"
+              >
+                Pricing
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/contact"
+                className="font-game text-2xl"
+              >
+                Contact Us
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       ) : exerciseslug ? (
         <h2 className="font-game text-2xl">
           {exerciseslug?.toString()?.replaceAll("-", " ").toLocaleUpperCase()}

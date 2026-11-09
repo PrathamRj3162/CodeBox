@@ -7,7 +7,12 @@ import React from "react";
 
 function UpgradeToPro() {
   const { has } = useAuth();
-  const hasUnlimitedAccess = has && has({ plan: "unlimited" });
+  let hasUnlimitedAccess = false;
+  try {
+    hasUnlimitedAccess = Boolean(has && has({ plan: "unlimited" }));
+  } catch {
+    hasUnlimitedAccess = false;
+  }
 
   return (
     !hasUnlimitedAccess && (
